@@ -114,69 +114,92 @@ methods: {
     const { cropper } = this;
     if (!cropper) return;
 
-    // Используем e.code для распознавания клавиш, так как e.key может отличаться по раскладке
-    switch (e.code) {
-      case 'Enter': // Завершить обрезку
-        this.crop();
-        break;
-      case 'Escape': // Очистить область обрезки
-        this.clear();
-        break;
-      case 'Delete': // Удалить изображение
-        this.reset();
-        break;
+    // Массив сопоставлений для русских и английских клавиш
+    const keyMap = {
+      'Enter': 'Enter',
+      'Escape': 'Escape',
+      'Delete': 'Delete',
+      'ArrowLeft': 'ArrowLeft',
+      'ArrowUp': 'ArrowUp',
+      'ArrowRight': 'ArrowRight',
+      'ArrowDown': 'ArrowDown',
+      'C': 'C',
+      'M': 'M',
+      'I': 'I',
+      'O': 'O',
+      'L': 'L',
+      'R': 'R',
+      'H': 'H',
+      'V': 'V',
+      'Z': 'Z',
+    };
 
-      case 'ArrowLeft': // Движение влево
-        e.preventDefault();
-        cropper.move(-1, 0);
-        break;
-      case 'ArrowUp': // Движение вверх
-        e.preventDefault();
-        cropper.move(0, -1);
-        break;
-      case 'ArrowRight': // Движение вправо
-        e.preventDefault();
-        cropper.move(1, 0);
-        break;
-      case 'ArrowDown': // Движение вниз
-        e.preventDefault();
-        cropper.move(0, 1);
-        break;
+    const key = e.key.toUpperCase(); // Приводим к верхнему регистру для унификации
 
-      case 'KeyC': // Включить режим обрезки
-        cropper.setDragMode('crop');
-        break;
-      case 'KeyM': // Включить режим перемещения
-        cropper.setDragMode('move');
-        break;
+    if (keyMap[key]) {
+      switch (keyMap[key]) {
+        case 'Enter': // Завершить обрезку
+          this.crop();
+          break;
+        case 'Escape': // Очистить область обрезки
+          this.clear();
+          break;
+        case 'Delete': // Удалить изображение
+          this.reset();
+          break;
 
-      case 'KeyI': // Увеличить
-        cropper.zoom(0.1);
-        break;
-      case 'KeyO': // Уменьшить
-        cropper.zoom(-0.1);
-        break;
-
-      case 'KeyL': // Повернуть влево
-        cropper.rotate(-90);
-        break;
-      case 'KeyR': // Повернуть вправо
-        cropper.rotate(90);
-        break;
-
-      case 'KeyH': // Отразить по горизонтали
-        cropper.scaleX(-cropper.getData().scaleX || -1);
-        break;
-      case 'KeyV': // Отразить по вертикали
-        cropper.scaleY(-cropper.getData().scaleY || -1);
-        break;
-
-      case 'KeyZ': // Отмена (Ctrl + Z)
-        if (e.ctrlKey) {
+        case 'ArrowLeft': // Движение влево
           e.preventDefault();
-          this.restore();
-        }
-        break;
+          cropper.move(-1, 0);
+          break;
+        case 'ArrowUp': // Движение вверх
+          e.preventDefault();
+          cropper.move(0, -1);
+          break;
+        case 'ArrowRight': // Движение вправо
+          e.preventDefault();
+          cropper.move(1, 0);
+          break;
+        case 'ArrowDown': // Движение вниз
+          e.preventDefault();
+          cropper.move(0, 1);
+          break;
+
+        case 'C': // Включить режим обрезки
+          cropper.setDragMode('crop');
+          break;
+        case 'M': // Включить режим перемещения
+          cropper.setDragMode('move');
+          break;
+
+        case 'I': // Увеличить
+          cropper.zoom(0.1);
+          break;
+        case 'O': // Уменьшить
+          cropper.zoom(-0.1);
+          break;
+
+        case 'L': // Повернуть влево
+          cropper.rotate(-90);
+          break;
+        case 'R': // Повернуть вправо
+          cropper.rotate(90);
+          break;
+
+        case 'H': // Отразить по горизонтали
+          cropper.scaleX(-cropper.getData().scaleX || -1);
+          break;
+        case 'V': // Отразить по вертикали
+          cropper.scaleY(-cropper.getData().scaleY || -1);
+          break;
+
+        case 'Z': // Отмена (Ctrl + Z)
+          if (e.ctrlKey) {
+            e.preventDefault();
+            this.restore();
+          }
+          break;
+      }
     }
   },
 }
