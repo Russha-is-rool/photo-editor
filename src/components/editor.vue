@@ -109,76 +109,77 @@ export default {
     this.stop();
   },
 
- methods: {
+methods: {
   keydown(e) {
     const { cropper } = this;
     if (!cropper) return;
 
-    const key = e.key.toLowerCase(); // Приводим к нижнему регистру для одной и той же клавиши
-
-    // Обработка для специальных клавиш, которые могут отличаться
-    switch (true) {
-      case e.key === 'Enter': // Завершить обрезку
+    // Используем e.code для распознавания клавиш, так как e.key может отличаться по раскладке
+    switch (e.code) {
+      case 'Enter': // Завершить обрезку
         this.crop();
         break;
-      case e.key === 'Escape': // Очистить область обрезки
+      case 'Escape': // Очистить область обрезки
         this.clear();
         break;
-      case e.key === 'Delete': // Удалить изображение
+      case 'Delete': // Удалить изображение
         this.reset();
         break;
 
-      case e.key === 'ArrowLeft': // Движение влево
+      case 'ArrowLeft': // Движение влево
         e.preventDefault();
         cropper.move(-1, 0);
         break;
-      case e.key === 'ArrowUp': // Движение вверх
+      case 'ArrowUp': // Движение вверх
         e.preventDefault();
         cropper.move(0, -1);
         break;
-      case e.key === 'ArrowRight': // Движение вправо
+      case 'ArrowRight': // Движение вправо
         e.preventDefault();
         cropper.move(1, 0);
         break;
-      case e.key === 'ArrowDown': // Движение вниз
+      case 'ArrowDown': // Движение вниз
         e.preventDefault();
         cropper.move(0, 1);
         break;
 
-      case key === 'c': // Включить режим обрезки
+      case 'KeyC': // Включить режим обрезки
         cropper.setDragMode('crop');
         break;
-      case key === 'm': // Включить режим перемещения
+      case 'KeyM': // Включить режим перемещения
         cropper.setDragMode('move');
         break;
 
-      case key === 'i': // Увеличить
+      case 'KeyI': // Увеличить
         cropper.zoom(0.1);
         break;
-      case key === 'o': // Уменьшить
+      case 'KeyO': // Уменьшить
         cropper.zoom(-0.1);
         break;
 
-      case key === 'l': // Повернуть влево
+      case 'KeyL': // Повернуть влево
         cropper.rotate(-90);
         break;
-      case key === 'r': // Повернуть вправо
+      case 'KeyR': // Повернуть вправо
         cropper.rotate(90);
         break;
 
-      case key === 'h': // Отразить по горизонтали
+      case 'KeyH': // Отразить по горизонтали
         cropper.scaleX(-cropper.getData().scaleX || -1);
         break;
-      case key === 'v': // Отразить по вертикали
+      case 'KeyV': // Отразить по вертикали
         cropper.scaleY(-cropper.getData().scaleY || -1);
         break;
 
-      case key === 'z' && e.ctrlKey: // Отмена (Ctrl + Z)
-        e.preventDefault();
-        this.restore();
+      case 'KeyZ': // Отмена (Ctrl + Z)
+        if (e.ctrlKey) {
+          e.preventDefault();
+          this.restore();
+        }
         break;
     }
   },
+}
    
   stop() {
       if (this.cropper) {
