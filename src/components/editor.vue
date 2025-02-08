@@ -110,74 +110,75 @@ export default {
   },
 
   methods: {
-    keydown(e) {
-      const { cropper } = this;
-      if (!cropper) return;
+  keydown(e) {
+    const { cropper } = this;
+    if (!cropper) return;
 
-      switch (e.code) {
-        case 'Enter': // Завершить обрезку
-          this.crop();
-          break;
-        case 'Escape': // Очистить область обрезки
-          this.clear();
-          break;
-        case 'Delete': // Удалить изображение
-          this.reset();
-          break;
+    switch (e.key) {
+      case 'Enter': // Завершить обрезку
+        this.crop();
+        break;
+      case 'Escape': // Очистить область обрезки
+        this.clear();
+        break;
+      case 'Delete': // Удалить изображение
+        this.reset();
+        break;
 
-        case 'ArrowLeft': // Движение влево
+      case 'ArrowLeft': // Движение влево
+        e.preventDefault();
+        cropper.move(-1, 0);
+        break;
+      case 'ArrowUp': // Движение вверх
+        e.preventDefault();
+        cropper.move(0, -1);
+        break;
+      case 'ArrowRight': // Движение вправо
+        e.preventDefault();
+        cropper.move(1, 0);
+        break;
+      case 'ArrowDown': // Движение вниз
+        e.preventDefault();
+        cropper.move(0, 1);
+        break;
+
+      case 'c': // Включить режим обрезки
+        cropper.setDragMode('crop');
+        break;
+      case 'm': // Включить режим перемещения
+        cropper.setDragMode('move');
+        break;
+
+      case 'i': // Увеличить
+        cropper.zoom(0.1);
+        break;
+      case 'o': // Уменьшить
+        cropper.zoom(-0.1);
+        break;
+
+      case 'l': // Повернуть влево
+        cropper.rotate(-90);
+        break;
+      case 'r': // Повернуть вправо
+        cropper.rotate(90);
+        break;
+
+      case 'h': // Отразить по горизонтали
+        cropper.scaleX(-cropper.getData().scaleX || -1);
+        break;
+      case 'v': // Отразить по вертикали
+        cropper.scaleY(-cropper.getData().scaleY || -1);
+        break;
+
+      case 'z': // Отмена (Ctrl + Z)
+        if (e.ctrlKey) {
           e.preventDefault();
-          cropper.move(-1, 0);
-          break;
-        case 'ArrowUp': // Движение вверх
-          e.preventDefault();
-          cropper.move(0, -1);
-          break;
-        case 'ArrowRight': // Движение вправо
-          e.preventDefault();
-          cropper.move(1, 0);
-          break;
-        case 'ArrowDown': // Движение вниз
-          e.preventDefault();
-          cropper.move(0, 1);
-          break;
-
-        case 'KeyC': // Включить режим обрезки
-          cropper.setDragMode('crop');
-          break;
-        case 'KeyM': // Включить режим перемещения
-          cropper.setDragMode('move');
-          break;
-
-        case 'KeyI': // Увеличить
-          cropper.zoom(0.1);
-          break;
-        case 'KeyO': // Уменьшить
-          cropper.zoom(-0.1);
-          break;
-
-        case 'KeyL': // Повернуть влево
-          cropper.rotate(-90);
-          break;
-        case 'KeyR': // Повернуть вправо
-          cropper.rotate(90);
-          break;
-
-        case 'KeyH': // Отразить по горизонтали
-          cropper.scaleX(-cropper.getData().scaleX || -1);
-          break;
-        case 'KeyV': // Отразить по вертикали
-          cropper.scaleY(-cropper.getData().scaleY || -1);
-          break;
-
-        case 'KeyZ': // Отмена (Ctrl + Z)
-          if (e.ctrlKey) {
-            e.preventDefault();
-            this.restore();
-          }
-          break;
-      }
-    },
+          this.restore();
+        }
+        break;
+    }
+  },
+},
 
     stop() {
       if (this.cropper) {
