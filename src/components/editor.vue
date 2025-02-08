@@ -150,7 +150,7 @@ export default {
     keydown(e) {
       switch (e.code) {
         // Undo crop
-        case 'z':
+        case 90:
           if (e.ctrlKey) {
             e.preventDefault();
             this.restore();
@@ -159,7 +159,7 @@ export default {
           break;
 
           // Delete the image
-        case 'Delete':
+        case 46:
           this.reset();
           break;
 
@@ -172,78 +172,78 @@ export default {
         return;
       }
 
-      switch (e.code) {
+      switch (e.key) {
         // Crop the image
-        case 'Enter':
+        case 13:
           this.crop();
           break;
 
           // Clear crop area
-        case 'Escape':
+        case 27: 
           this.clear();
           break;
 
           // Move to the left
-        case 'ArrowLeft':
+        case 37:
           e.preventDefault();
           cropper.move(-1, 0);
           break;
 
           // Move to the top
-        case 'ArrowUp':
+        case 38:
           e.preventDefault();
           cropper.move(0, -1);
           break;
 
           // Move to the right
-        case 'ArrowRight':
+        case 39:
           e.preventDefault();
           cropper.move(1, 0);
           break;
 
           // Move to the bottom
-        case 'ArrowDown':
+        case 40:
           e.preventDefault();
           cropper.move(0, 1);
           break;
 
           // Enter crop mode
-        case 'c':
+        case 67:
           cropper.setDragMode('crop');
           break;
 
           // Enter move mode
-        case 'm':
+        case 77:
           cropper.setDragMode('move');
           break;
 
           // Zoom in
-        case 'i':
+        case 73:
           cropper.zoom(0.1);
           break;
 
           // Zoom out
-        case 'o':
+        case 79:
           cropper.zoom(-0.1);
           break;
 
           // Rotate left
-        case 'l':
+        case 76:
           cropper.rotate(-90);
           break;
 
           // Rotate right
-        case 'r':
+        case 82:
           cropper.rotate(90);
           break;
 
           // Flip horizontal
-        case 'h':
+        case 72:
           cropper.scaleX(-cropper.getData().scaleX || -1);
           break;
 
           // Flip vertical
-        case 'v':
+        case 86:
           cropper.scaleY(-cropper.getData().scaleY || -1);
           break;
 
