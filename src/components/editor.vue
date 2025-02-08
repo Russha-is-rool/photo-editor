@@ -80,6 +80,7 @@
 <script>
 import Cropper from 'cropperjs';
 
+// Дальше идёт код который исправил ChatGPT  
 export default {
   name: 'Editor',
 
@@ -109,190 +110,73 @@ export default {
   },
 
   methods: {
-    click({ target }) {
-      const { cropper } = this;
-      const action = target.getAttribute('data-action') || target.parentElement.getAttribute('data-action');
-
-      switch (action) {
-        case 'move':
-        case 'crop':
-          cropper.setDragMode(action);
-          break;
-
-        case 'zoom-in':
-          cropper.zoom(0.1);
-          break;
-
-        case 'zoom-out':
-          cropper.zoom(-0.1);
-          break;
-
-        case 'rotate-left':
-          cropper.rotate(-90);
-          break;
-
-        case 'rotate-right':
-          cropper.rotate(90);
-          break;
-
-        case 'flip-horizontal':
-          cropper.scaleX(-cropper.getData().scaleX || -1);
-          break;
-
-        case 'flip-vertical':
-          cropper.scaleY(-cropper.getData().scaleY || -1);
-          break;
-
-        default:
-      }
-    },
-
     keydown(e) {
+      const { cropper } = this;
+      if (!cropper) return;
+
       switch (e.code) {
-        // Undo crop
-        case 90:
-          if (e.ctrlKey) {
-            e.preventDefault();
-            this.restore();
-          }
-
+        case 'Enter': // Завершить обрезку
+          this.crop();
           break;
-
-          // Delete the image
-        case 46:
+        case 'Escape': // Очистить область обрезки
+          this.clear();
+          break;
+        case 'Delete': // Удалить изображение
           this.reset();
           break;
 
-        default:
-      }
-
-      const { cropper } = this;
-
-      if (!cropper) {
-        return;
-      }
-
-      switch (e.key) {
-        // Crop the image
-        case 13:
-          this.crop();
-          break;
-
-          // Clear crop area
-        case 27: 
-          this.clear();
-          break;
-
-          // Move to the left
-        case 37:
+        case 'ArrowLeft': // Движение влево
           e.preventDefault();
           cropper.move(-1, 0);
           break;
-
-          // Move to the top
-        case 38:
+        case 'ArrowUp': // Движение вверх
           e.preventDefault();
           cropper.move(0, -1);
           break;
-
-          // Move to the right
-        case 39:
+        case 'ArrowRight': // Движение вправо
           e.preventDefault();
           cropper.move(1, 0);
           break;
-
-          // Move to the bottom
-        case 40:
+        case 'ArrowDown': // Движение вниз
           e.preventDefault();
           cropper.move(0, 1);
           break;
 
-          // Enter crop mode
-        case 67:
+        case 'KeyC': // Включить режим обрезки
           cropper.setDragMode('crop');
           break;
-
-          // Enter move mode
-        case 77:
+        case 'KeyM': // Включить режим перемещения
           cropper.setDragMode('move');
           break;
 
-          // Zoom in
-        case 73:
+        case 'KeyI': // Увеличить
           cropper.zoom(0.1);
           break;
-
-          // Zoom out
-        case 79:
+        case 'KeyO': // Уменьшить
           cropper.zoom(-0.1);
           break;
 
-          // Rotate left
-        case 76:
+        case 'KeyL': // Повернуть влево
           cropper.rotate(-90);
           break;
-
-          // Rotate right
-        case 82:
+        case 'KeyR': // Повернуть вправо
           cropper.rotate(90);
           break;
 
-          // Flip horizontal
-        case 72:
+        case 'KeyH': // Отразить по горизонтали
           cropper.scaleX(-cropper.getData().scaleX || -1);
           break;
-
-          // Flip vertical
-        case 86:
+        case 'KeyV': // Отразить по вертикали
           cropper.scaleY(-cropper.getData().scaleY || -1);
           break;
 
-        default:
-      }
-    },
-
-    dblclick(e) {
-      if (e.target.className.indexOf('cropper-face') >= 0) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.crop();
-      }
-    },
-
-    start() {
-      const { data } = this;
-
-      if (data.cropped || this.cropper) {
-        return;
-      }
-
-      this.cropper = new Cropper(this.$refs.image, {
-        autoCrop: false,
-        dragMode: 'move',
-        background: false,
-
-        ready: () => {
-          if (this.croppedData) {
-            this.cropper
-              .crop()
-              .setData(this.croppedData)
-              .setCanvasData(this.canvasData)
-              .setCropBoxData(this.cropBoxData);
-
-            this.croppedData = null;
-            this.canvasData = null;
-            this.cropBoxData = null;
+        case 'KeyZ': // Отмена (Ctrl + Z)
+          if (e.ctrlKey) {
+            e.preventDefault();
+            this.restore();
           }
-        },
-
-        crop: ({ detail }) => {
-          if (detail.width > 0 && detail.height > 0 && !data.cropping) {
-            this.update({
-              cropping: true,
-            });
-          }
-        },
-      });
+          break;
+      }
     },
 
     stop() {
@@ -304,7 +188,6 @@ export default {
 
     crop() {
       const { cropper, data } = this;
-
       if (data.cropping) {
         this.croppedData = cropper.getData();
         this.canvasData = cropper.getCanvasData();
@@ -313,9 +196,7 @@ export default {
           cropped: true,
           cropping: false,
           previousUrl: data.url,
-          url: cropper.getCroppedCanvas(data.type === 'image/png' ? {} : {
-            fillColor: '#fff',
-          }).toDataURL(data.type),
+          url: cropper.getCroppedCanvas(data.type === 'image/png' ? {} : { fillColor: '#fff' }).toDataURL(data.type),
         });
         this.stop();
       }
@@ -324,9 +205,7 @@ export default {
     clear() {
       if (this.data.cropping) {
         this.cropper.clear();
-        this.update({
-          cropping: false,
-        });
+        this.update({ cropping: false });
       }
     },
 
