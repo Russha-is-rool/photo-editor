@@ -114,30 +114,32 @@ export default {
     const { cropper } = this;
     if (!cropper) return;
 
-    switch (e.key) {
-      case 'Enter': // Завершить обрезку
+    const key = e.key.toLowerCase(); // Приводим клавишу к нижнему регистру
+
+    switch (key) {
+      case 'enter': // Завершить обрезку
         this.crop();
         break;
-      case 'Escape': // Очистить область обрезки
+      case 'escape': // Очистить область обрезки
         this.clear();
         break;
-      case 'Delete': // Удалить изображение
+      case 'delete': // Удалить изображение
         this.reset();
         break;
 
-      case 'ArrowLeft': // Движение влево
+      case 'arrowleft': // Движение влево
         e.preventDefault();
         cropper.move(-1, 0);
         break;
-      case 'ArrowUp': // Движение вверх
+      case 'arrowup': // Движение вверх
         e.preventDefault();
         cropper.move(0, -1);
         break;
-      case 'ArrowRight': // Движение вправо
+      case 'arrowright': // Движение вправо
         e.preventDefault();
         cropper.move(1, 0);
         break;
-      case 'ArrowDown': // Движение вниз
+      case 'arrowdown': // Движение вниз
         e.preventDefault();
         cropper.move(0, 1);
         break;
@@ -178,9 +180,8 @@ export default {
         break;
     }
   },
-},
-
-    stop() {
+   
+  stop() {
       if (this.cropper) {
         this.cropper.destroy();
         this.cropper = null;
