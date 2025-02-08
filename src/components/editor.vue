@@ -80,7 +80,6 @@
 <script>
 import Cropper from 'cropperjs';
 
-// Дальше идёт код который исправил ChatGPT  
 export default {
   name: 'Editor',
 
@@ -109,35 +108,55 @@ export default {
     this.stop();
   },
 
-methods: {
-  keydown(e) {
-    const { cropper } = this;
-    if (!cropper) return;
+  methods: {
+    // Обработчик нажатия клавиш
+    keydown(e) {
+      const { cropper } = this;
+      if (!cropper) return;
 
-    // Массив сопоставлений для русских и английских клавиш
-    const keyMap = {
-      'Enter': 'Enter',
-      'Escape': 'Escape',
-      'Delete': 'Delete',
-      'ArrowLeft': 'ArrowLeft',
-      'ArrowUp': 'ArrowUp',
-      'ArrowRight': 'ArrowRight',
-      'ArrowDown': 'ArrowDown',
-      'C': 'C',
-      'M': 'M',
-      'I': 'I',
-      'O': 'O',
-      'L': 'L',
-      'R': 'R',
-      'H': 'H',
-      'V': 'V',
-      'Z': 'Z',
-    };
+      // Логируем информацию о нажатой клавише
+      console.log('e.key:', e.key);   // Логирование символа
+      console.log('e.code:', e.code); // Логирование кода клавиши
 
-    const key = e.key.toUpperCase(); // Приводим к верхнему регистру для унификации
+      // Маппинг для русских клавиш
+      const keyMap = {
+        'Enter': 'Enter',
+        'Escape': 'Escape',
+        'Delete': 'Delete',
+        'ArrowLeft': 'ArrowLeft',
+        'ArrowUp': 'ArrowUp',
+        'ArrowRight': 'ArrowRight',
+        'ArrowDown': 'ArrowDown',
+        'C': 'C',
+        'M': 'M',
+        'I': 'I',
+        'O': 'O',
+        'L': 'L',
+        'R': 'R',
+        'H': 'H',
+        'V': 'V',
+        'Z': 'Z',
 
-    if (keyMap[key]) {
-      switch (keyMap[key]) {
+        // Маппинг для русских символов (вы можете добавлять другие по необходимости)
+        'я': 'f',
+        'ф': 'a',
+        'ы': 'u',
+        'в': 't',
+        'а': 'g',
+        'п': 'y',
+        'р': 'r',
+        // И так далее...
+      };
+
+      // Приводим клавишу к верхнему регистру для унификации
+      const key = e.key.toLowerCase();  // Приводим в нижний регистр
+
+      // Проверяем, есть ли клавиша в маппинге
+      const mappedKey = keyMap[key] || key; // Если не нашли в маппинге, используем саму клавишу
+
+      console.log('Mapped key:', mappedKey); // Логируем сопоставленную клавишу
+
+      switch (mappedKey) {
         case 'Enter': // Завершить обрезку
           this.crop();
           break;
@@ -200,11 +219,9 @@ methods: {
           }
           break;
       }
-    }
-  },
-}
-   
-  stop() {
+    },
+
+    stop() {
       if (this.cropper) {
         this.cropper.destroy();
         this.cropper = null;
