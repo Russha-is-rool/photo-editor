@@ -148,7 +148,7 @@ export default {
     },
 
     keydown(e) {
-      switch (e.key.normalize("NFD").toLowerCase()) {
+      switch (e.which) {
         // Undo crop
         case 'z':
           if (e.ctrlKey) {
@@ -172,7 +172,7 @@ export default {
         return;
       }
 
-      switch (e.key.normalize("NFD").toLowerCase()) {
+      switch (e.which) {
         // Crop the image
         case 'Enter':
           this.crop();
