@@ -145,78 +145,80 @@ export default {
       }
     },
 
-    keydown(e) {
-      switch (e.code) {
-        case 'KeyZ':
-          if (e.ctrlKey) {
-            e.preventDefault();
-            this.restore();
-          }
-          break;
+keydown(e) {
+  const key = e.key.toLowerCase();
 
-        case 'Delete':
-          this.reset();
-          break;
+  switch (key) {
+    case 'z':
+      if (e.ctrlKey) {
+        e.preventDefault();
+        this.restore();
+      }
+      break;
 
-        case 'Enter':
-          this.crop();
-          break;
+    case 'delete':
+      this.reset();
+      break;
 
-        case 'Escape':
-          this.clear();
-          break;
+    case 'enter':
+      this.crop();
+      break;
 
-        case 'ArrowLeft':
-          e.preventDefault();
-          this.cropper.move(-1, 0);
-          break;
+    case 'escape':
+      this.clear();
+      break;
 
-        case 'ArrowUp':
-          e.preventDefault();
-          this.cropper.move(0, -1);
-          break;
+    case 'arrowleft':
+      e.preventDefault();
+      this.cropper.move(-1, 0);
+      break;
 
-        case 'ArrowRight':
-          e.preventDefault();
-          this.cropper.move(1, 0);
-          break;
+    case 'arrowup':
+      e.preventDefault();
+      this.cropper.move(0, -1);
+      break;
 
-        case 'ArrowDown':
-          e.preventDefault();
-          this.cropper.move(0, 1);
-          break;
+    case 'arrowright':
+      e.preventDefault();
+      this.cropper.move(1, 0);
+      break;
 
-        case 'KeyC':
-          this.cropper.setDragMode('crop');
-          break;
+    case 'arrowdown':
+      e.preventDefault();
+      this.cropper.move(0, 1);
+      break;
 
-        case 'KeyM':
-          this.cropper.setDragMode('move');
-          break;
+    case 'c':
+      this.cropper.setDragMode('crop');
+      break;
 
-        case 'KeyI':
-          this.cropper.zoom(0.1);
-          break;
+    case 'm':
+      this.cropper.setDragMode('move');
+      break;
 
-        case 'KeyO':
-          this.cropper.zoom(-0.1);
-          break;
+    case 'i':
+      this.cropper.zoom(0.1);
+      break;
 
-        case 'KeyL':
-          this.cropper.rotate(-90);
-          break;
+    case 'o':
+      this.cropper.zoom(-0.1);
+      break;
 
-        case 'KeyR':
-          this.cropper.rotate(90);
-          break;
+    case 'l':
+      this.cropper.rotate(-90);
+      break;
 
-        case 'KeyH':
-          this.cropper.scaleX(-this.cropper.getData().scaleX || -1);
-          break;
+    case 'r':
+      this.cropper.rotate(90);
+      break;
 
-        case 'KeyV':
-          this.cropper.scaleY(-this.cropper.getData().scaleY || -1);
-          break;
+    case 'h':
+      this.cropper.scaleX(-this.cropper.getData().scaleX || -1);
+      break;
+
+    case 'v':
+      this.cropper.scaleY(-this.cropper.getData().scaleY || -1);
+      break;
       }
     },
   },
