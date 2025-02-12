@@ -146,21 +146,23 @@ export default {
     },
 
 keydown(e) {
-  const key = e.key.toLowerCase(); // Получаем символ в нижнем регистре
+  const key = e.key.toLowerCase();
 
   switch (key) {
+    case 'з': // 'з' соответствует 'z' в русской раскладке
     case 'z':
-    case 'я': // Добавляем русскую букву
       if (e.ctrlKey) {
         e.preventDefault();
         this.restore();
       }
       break;
 
+    case 'удалить':
     case 'delete':
       this.reset();
       break;
 
+    case 'ввод':
     case 'enter':
       this.crop();
       break;
@@ -169,63 +171,65 @@ keydown(e) {
       this.clear();
       break;
 
+    case 'стрелка влево':
     case 'arrowleft':
       e.preventDefault();
       this.cropper.move(-1, 0);
       break;
 
+    case 'стрелка вверх':
     case 'arrowup':
       e.preventDefault();
       this.cropper.move(0, -1);
       break;
 
+    case 'стрелка вправо':
     case 'arrowright':
       e.preventDefault();
       this.cropper.move(1, 0);
       break;
 
+    case 'стрелка вниз':
     case 'arrowdown':
       e.preventDefault();
       this.cropper.move(0, 1);
       break;
 
-    case 'c':
-    case 'с': // Русская 'С'
+    case 'с':
       this.cropper.setDragMode('crop');
       break;
 
     case 'm':
-    case 'ь': // Русская 'Ь' (на месте 'M')
       this.cropper.setDragMode('move');
       break;
 
+    case 'и':
     case 'i':
-    case 'ш': // Русская 'Ш' (на месте 'I')
       this.cropper.zoom(0.1);
       break;
 
+    case 'о':
     case 'o':
-    case 'щ': // Русская 'Щ' (на месте 'O')
       this.cropper.zoom(-0.1);
       break;
 
+    case 'л':
     case 'l':
-    case 'д': // Русская 'Д' (на месте 'L')
       this.cropper.rotate(-90);
       break;
 
+    case 'р':
     case 'r':
-    case 'к': // Русская 'К' (на месте 'R')
       this.cropper.rotate(90);
       break;
 
+    case 'х':
     case 'h':
-    case 'р': // Русская 'Р' (на месте 'H')
       this.cropper.scaleX(-this.cropper.getData().scaleX || -1);
       break;
 
+    case 'в':
     case 'v':
-    case 'м': // Русская 'М' (на месте 'V')
       this.cropper.scaleY(-this.cropper.getData().scaleY || -1);
       break;
       }
