@@ -221,7 +221,6 @@ keydown(e) {
       break;
       }
     },
-  },
 
     dblclick(e) {
       if (e.target.className.indexOf('cropper-face') >= 0) {
