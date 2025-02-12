@@ -43,19 +43,19 @@ export default {
       const { editor } = this.$refs;
 
       switch (action) {
-        case 'crop':
+        case 'обрезать':
           editor.crop();
           break;
 
-        case 'clear':
+        case 'очистить':
           editor.clear();
           break;
 
-        case 'restore':
+        case 'восстановить':
           editor.restore();
           break;
 
-        case 'remove':
+        case 'назад':
           editor.reset();
           break;
 
