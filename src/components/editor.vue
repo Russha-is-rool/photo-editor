@@ -27,7 +27,7 @@
       <button
         class="toolbar__button"
         data-action="crop"
-        title="Обрезать (С)"
+        title="Crop (C)"
       >
         <span class="fa fa-crop" />
       </button>
@@ -142,84 +142,112 @@ export default {
         case 'flip-vertical':
           cropper.scaleY(-cropper.getData().scaleY || -1);
           break;
+
+        default:
       }
     },
 
-keydown(e) {
-  const key = e.key.toLowerCase();
+    keydown(e) {
+      switch (e.code) {
+        // Undo crop
+        case 'z':
+          if (e.ctrlKey) {
+            e.preventDefault();
+            this.restore();
+          }
 
-  switch (key) {
-    case 'з': // 'з' соответствует 'z' в русской раскладке
-    case 'z':
-      if (e.ctrlKey) {
-        e.preventDefault();
-        this.restore();
+          break;
+
+          // Delete the image
+        case 'Delete':
+          this.reset();
+          break;
+
+        default:
       }
-      break;
 
-    case 'delete':
-      this.reset();
-      break;
+      const { cropper } = this;
 
-    case 'enter':
-      this.crop();
-      break;
+      if (!cropper) {
+        return;
+      }
 
-    case 'escape':
-      this.clear();
-      break;
+      switch (e.code) {
+        // Crop the image
+        case 'Enter':
+          this.crop();
+          break;
 
-    case 'arrowleft':
-      e.preventDefault();
-      this.cropper.move(-1, 0);
-      break;
+          // Clear crop area
+        case 'Escape':
+          this.clear();
+          break;
 
-    case 'arrowup':
-      e.preventDefault();
-      this.cropper.move(0, -1);
-      break;
+          // Move to the left
+        case 'ArrowLeft':
+          e.preventDefault();
+          cropper.move(-1, 0);
+          break;
 
-    case 'arrowright':
-      e.preventDefault();
-      this.cropper.move(1, 0);
-      break;
+          // Move to the top
+        case 'ArrowUp':
+          e.preventDefault();
+          cropper.move(0, -1);
+          break;
 
-    case 'arrowdown':
-      e.preventDefault();
-      this.cropper.move(0, 1);
-      break;
+          // Move to the right
+        case 'ArrowRight':
+          e.preventDefault();
+          cropper.move(1, 0);
+          break;
 
-    case 'с':
-      this.cropper.setDragMode('crop');
-      break;
+          // Move to the bottom
+        case 'ArrowDown':
+          e.preventDefault();
+          cropper.move(0, 1);
+          break;
 
-    case 'ь':
-      this.cropper.setDragMode('move');
-      break;
+          // Enter crop mode
+        case 'c':
+          cropper.setDragMode('crop');
+          break;
 
-    case 'ш':
-      this.cropper.zoom(0.1);
-      break;
+          // Enter move mode
+        case 'm':
+          cropper.setDragMode('move');
+          break;
 
-    case 'щ':
-      this.cropper.zoom(-0.1);
-      break;
+          // Zoom in
+        case 'i':
+          cropper.zoom(0.1);
+          break;
 
-    case 'д':
-      this.cropper.rotate(-90);
-      break;
+          // Zoom out
+        case 'o':
+          cropper.zoom(-0.1);
+          break;
 
-    case 'к':
-      this.cropper.rotate(90);
-      break;
+          // Rotate left
+        case 'д':
+          cropper.rotate(-90);
+          break;
 
-    case 'р':
-      this.cropper.scaleX(-this.cropper.getData().scaleX || -1);
-      break;
+          // Rotate right
+        case 'r':
+          cropper.rotate(90);
+          break;
 
-    case 'м':
-      this.cropper.scaleY(-this.cropper.getData().scaleY || -1);
-      break;
+          // Flip horizontal
+        case 'р':
+          cropper.scaleX(-cropper.getData().scaleX || -1);
+          break;
+
+          // Flip vertical
+        case 'м':
+          cropper.scaleY(-cropper.getData().scaleY || -1);
+          break;
+
+        default:
       }
     },
 
