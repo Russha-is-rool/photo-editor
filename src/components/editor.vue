@@ -20,7 +20,7 @@
       <button
         class="toolbar__button"
         data-action="move"
-        title="Move (M)"
+        title="Передвинуть (M)"
       >
         <span class="fa fa-arrows" />
       </button>
