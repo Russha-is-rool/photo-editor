@@ -109,123 +109,188 @@ export default {
   },
 
   methods: {
-    // Обработчик нажатия клавиш
-    keydown(e) {
+    click({ target }) {
       const { cropper } = this;
-      if (!cropper) return;
+      const action = target.getAttribute('data-action') || target.parentElement.getAttribute('data-action');
 
-      // Логируем информацию о нажатой клавише и код
-      console.log('e.key:', e.key);   // Логирование символа
-      console.log('e.code:', e.code); // Логирование кода клавиши
-
-      // Маппинг для русских клавиш
-      const keyMap = {
-        'Enter': 'Enter',
-        'Escape': 'Escape',
-        'Delete': 'Delete',
-        'ArrowLeft': 'ArrowLeft',
-        'ArrowUp': 'ArrowUp',
-        'ArrowRight': 'ArrowRight',
-        'ArrowDown': 'ArrowDown',
-        'C': 'C',
-        'M': 'M',
-        'I': 'I',
-        'O': 'O',
-        'L': 'L',
-        'R': 'R',
-        'H': 'H',
-        'V': 'V',
-        'Z': 'Z',
-
-        // Маппинг для русских символов
-        'я': 'f',  // В русском раскладке 'я' это 'f' в латинской
-        'ф': 'a',
-        'ы': 'u',
-        'в': 't',
-        'а': 'g',
-        'п': 'y',
-        'р': 'r',
-        'о': 'p',
-        'л': 'l',
-        'д': 'd',
-        'ж': 'j',
-        'э': 'e',
-        'я': 'f',
-        // добавьте остальные по аналогии
-      };
-
-      // Приводим клавишу к нижнему регистру и проверяем раскладку
-      const key = e.key.toLowerCase();  // Приводим в нижний регистр
-
-      // Проверяем, есть ли клавиша в маппинге
-      const mappedKey = keyMap[key] || key; // Если не нашли в маппинге, используем саму клавишу
-
-      console.log('Mapped key:', mappedKey); // Логируем сопоставленную клавишу
-
-      // Обработка событий
-      switch (mappedKey) {
-        case 'Enter': // Завершить обрезку
-          this.crop();
+      switch (action) {
+        case 'move':
+        case 'crop':
+          cropper.setDragMode(action);
           break;
-        case 'Escape': // Очистить область обрезки
-          this.clear();
+
+        case 'zoom-in':
+          cropper.zoom(0.1);
           break;
-        case 'Delete': // Удалить изображение
+
+        case 'zoom-out':
+          cropper.zoom(-0.1);
+          break;
+
+        case 'rotate-left':
+          cropper.rotate(-90);
+          break;
+
+        case 'rotate-right':
+          cropper.rotate(90);
+          break;
+
+        case 'flip-horizontal':
+          cropper.scaleX(-cropper.getData().scaleX || -1);
+          break;
+
+        case 'flip-vertical':
+          cropper.scaleY(-cropper.getData().scaleY || -1);
+          break;
+
+        default:
+      }
+    },
+
+   keydown(e) {
+     switch (e.code) { // Используем e.code вместо e.key
+       case 'KeyZ':
+         if (e.ctrlKey) {
+           e.preventDefault();
+           this.restore();
+        }
+        break;
+
+          // Delete the image
+        case 'Delete':
           this.reset();
           break;
 
-        case 'ArrowLeft': // Движение влево
+        default:
+      }
+
+      const { cropper } = this;
+
+      if (!cropper) {
+        return;
+      }
+
+      switch (e.key) {
+        // Crop the image
+        case 'Enter':
+          this.crop();
+          break;
+
+          // Clear crop area
+        case 'Escape':
+          this.clear();
+          break;
+
+          // Move to the left
+        case 'ArrowLeft':
           e.preventDefault();
           cropper.move(-1, 0);
           break;
-        case 'ArrowUp': // Движение вверх
+
+          // Move to the top
+        case 'ArrowUp':
           e.preventDefault();
           cropper.move(0, -1);
           break;
-        case 'ArrowRight': // Движение вправо
+
+          // Move to the right
+        case 'ArrowRight':
           e.preventDefault();
           cropper.move(1, 0);
           break;
-        case 'ArrowDown': // Движение вниз
+
+          // Move to the bottom
+        case 'ArrowDown':
           e.preventDefault();
           cropper.move(0, 1);
           break;
 
-        case 'C': // Включить режим обрезки
+          // Enter crop mode
+        case 'c':
           cropper.setDragMode('crop');
           break;
-        case 'M': // Включить режим перемещения
+
+          // Enter move mode
+        case 'm':
           cropper.setDragMode('move');
           break;
 
-        case 'I': // Увеличить
+          // Zoom in
+        case 'i':
           cropper.zoom(0.1);
           break;
-        case 'O': // Уменьшить
+
+          // Zoom out
+        case 'o':
           cropper.zoom(-0.1);
           break;
 
-        case 'L': // Повернуть влево
+          // Rotate left
+        case 'l':
           cropper.rotate(-90);
           break;
-        case 'R': // Повернуть вправо
+
+          // Rotate right
+        case 'r':
           cropper.rotate(90);
           break;
 
-        case 'H': // Отразить по горизонтали
+          // Flip horizontal
+        case 'h':
           cropper.scaleX(-cropper.getData().scaleX || -1);
           break;
-        case 'V': // Отразить по вертикали
+
+          // Flip vertical
+        case 'v':
           cropper.scaleY(-cropper.getData().scaleY || -1);
           break;
 
-        case 'Z': // Отмена (Ctrl + Z)
-          if (e.ctrlKey) {
-            e.preventDefault();
-            this.restore();
-          }
-          break;
+        default:
       }
+    },
+
+    dblclick(e) {
+      if (e.target.className.indexOf('cropper-face') >= 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.crop();
+      }
+    },
+
+    start() {
+      const { data } = this;
+
+      if (data.cropped || this.cropper) {
+        return;
+      }
+
+      this.cropper = new Cropper(this.$refs.image, {
+        autoCrop: false,
+        dragMode: 'move',
+        background: false,
+
+        ready: () => {
+          if (this.croppedData) {
+            this.cropper
+              .crop()
+              .setData(this.croppedData)
+              .setCanvasData(this.canvasData)
+              .setCropBoxData(this.cropBoxData);
+
+            this.croppedData = null;
+            this.canvasData = null;
+            this.cropBoxData = null;
+          }
+        },
+
+        crop: ({ detail }) => {
+          if (detail.width > 0 && detail.height > 0 && !data.cropping) {
+            this.update({
+              cropping: true,
+            });
+          }
+        },
+      });
     },
 
     stop() {
@@ -237,6 +302,7 @@ export default {
 
     crop() {
       const { cropper, data } = this;
+
       if (data.cropping) {
         this.croppedData = cropper.getData();
         this.canvasData = cropper.getCanvasData();
@@ -245,7 +311,9 @@ export default {
           cropped: true,
           cropping: false,
           previousUrl: data.url,
-          url: cropper.getCroppedCanvas(data.type === 'image/png' ? {} : { fillColor: '#fff' }).toDataURL(data.type),
+          url: cropper.getCroppedCanvas(data.type === 'image/png' ? {} : {
+            fillColor: '#fff',
+          }).toDataURL(data.type),
         });
         this.stop();
       }
@@ -254,7 +322,9 @@ export default {
     clear() {
       if (this.data.cropping) {
         this.cropper.clear();
-        this.update({ cropping: false });
+        this.update({
+          cropping: false,
+        });
       }
     },
 
