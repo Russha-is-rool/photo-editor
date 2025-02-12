@@ -21,9 +21,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fengyuanchen/photo-editor/issues"
+    "url": "https://russha-is-rool.github.io/photo-editor/issues"
   },
-  "homepage": "https://fengyuanchen.github.io/photo-editor",
+  "homepage": "https://russha-is-rool.github.io/photo-editor/",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "cropperjs": "^1.5.11",
