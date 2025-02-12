@@ -146,31 +146,11 @@ export default {
     },
 
 keydown(e) {
-  const keyMap = {
-    90: 'z', // Z
-    46: 'delete', // Delete
-    13: 'enter', // Enter
-    27: 'escape', // Escape
-    37: 'arrowleft', // Left Arrow
-    38: 'arrowup', // Up Arrow
-    39: 'arrowright', // Right Arrow
-    40: 'arrowdown', // Down Arrow
-    67: 'c', // C
-    77: 'm', // M
-    73: 'i', // I
-    79: 'o', // O
-    76: 'l', // L
-    82: 'r', // R
-    72: 'h', // H
-    86: 'v', // V
-  };
-
-  const key = keyMap[e.keyCode];
-
-  if (!key) return;
+  const key = e.key.toLowerCase(); // Получаем символ в нижнем регистре
 
   switch (key) {
     case 'z':
+    case 'я': // Добавляем русскую букву
       if (e.ctrlKey) {
         e.preventDefault();
         this.restore();
@@ -210,34 +190,42 @@ keydown(e) {
       break;
 
     case 'c':
+    case 'с': // Русская 'С'
       this.cropper.setDragMode('crop');
       break;
 
     case 'm':
+    case 'ь': // Русская 'Ь' (на месте 'M')
       this.cropper.setDragMode('move');
       break;
 
     case 'i':
+    case 'ш': // Русская 'Ш' (на месте 'I')
       this.cropper.zoom(0.1);
       break;
 
     case 'o':
+    case 'щ': // Русская 'Щ' (на месте 'O')
       this.cropper.zoom(-0.1);
       break;
 
     case 'l':
+    case 'д': // Русская 'Д' (на месте 'L')
       this.cropper.rotate(-90);
       break;
 
     case 'r':
+    case 'к': // Русская 'К' (на месте 'R')
       this.cropper.rotate(90);
       break;
 
     case 'h':
+    case 'р': // Русская 'Р' (на месте 'H')
       this.cropper.scaleX(-this.cropper.getData().scaleX || -1);
       break;
 
     case 'v':
+    case 'м': // Русская 'М' (на месте 'V')
       this.cropper.scaleY(-this.cropper.getData().scaleY || -1);
       break;
       }
