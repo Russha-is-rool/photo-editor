@@ -27,7 +27,7 @@
       <button
         class="toolbar__button"
         data-action="crop"
-        title="Crop (C)"
+        title="Обрезать (С)"
       >
         <span class="fa fa-crop" />
       </button>
@@ -157,12 +157,10 @@ keydown(e) {
       }
       break;
 
-    case 'удалить':
     case 'delete':
       this.reset();
       break;
 
-    case 'ввод':
     case 'enter':
       this.crop();
       break;
@@ -171,25 +169,21 @@ keydown(e) {
       this.clear();
       break;
 
-    case 'стрелка влево':
     case 'arrowleft':
       e.preventDefault();
       this.cropper.move(-1, 0);
       break;
 
-    case 'стрелка вверх':
     case 'arrowup':
       e.preventDefault();
       this.cropper.move(0, -1);
       break;
 
-    case 'стрелка вправо':
     case 'arrowright':
       e.preventDefault();
       this.cropper.move(1, 0);
       break;
 
-    case 'стрелка вниз':
     case 'arrowdown':
       e.preventDefault();
       this.cropper.move(0, 1);
@@ -199,37 +193,31 @@ keydown(e) {
       this.cropper.setDragMode('crop');
       break;
 
-    case 'm':
+    case 'ь':
       this.cropper.setDragMode('move');
       break;
 
-    case 'и':
-    case 'i':
+    case 'ш':
       this.cropper.zoom(0.1);
       break;
 
-    case 'о':
-    case 'o':
+    case 'щ':
       this.cropper.zoom(-0.1);
       break;
 
-    case 'л':
-    case 'l':
+    case 'д':
       this.cropper.rotate(-90);
       break;
 
-    case 'р':
-    case 'r':
+    case 'к':
       this.cropper.rotate(90);
       break;
 
-    case 'х':
-    case 'h':
+    case 'р':
       this.cropper.scaleX(-this.cropper.getData().scaleX || -1);
       break;
 
-    case 'в':
-    case 'v':
+    case 'м':
       this.cropper.scaleY(-this.cropper.getData().scaleY || -1);
       break;
       }
