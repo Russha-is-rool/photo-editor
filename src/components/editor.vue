@@ -146,7 +146,28 @@ export default {
     },
 
 keydown(e) {
-  const key = e.key.toLowerCase();
+  const keyMap = {
+    90: 'z', // Z
+    46: 'delete', // Delete
+    13: 'enter', // Enter
+    27: 'escape', // Escape
+    37: 'arrowleft', // Left Arrow
+    38: 'arrowup', // Up Arrow
+    39: 'arrowright', // Right Arrow
+    40: 'arrowdown', // Down Arrow
+    67: 'c', // C
+    77: 'm', // M
+    73: 'i', // I
+    79: 'o', // O
+    76: 'l', // L
+    82: 'r', // R
+    72: 'h', // H
+    86: 'v', // V
+  };
+
+  const key = keyMap[e.keyCode];
+
+  if (!key) return;
 
   switch (key) {
     case 'z':
